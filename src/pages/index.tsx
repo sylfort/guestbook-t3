@@ -12,11 +12,13 @@ const Messages = () => {
 
   return (
     <div className="flex flex-col gap-4">
-      {messages?.map((msg, index)=> {
-        return <div key={index}>
-          <p>{msg.message}</p>
-          <span>{msg.name}</span>
-        </div>
+      {messages?.map((msg, index) => {
+        return (
+          <div key={index}>
+            <p>{msg.message}</p>
+            <span>{msg.name}</span>
+          </div>
+        );
       })}
     </div>
   );
@@ -37,7 +39,7 @@ const Home = () => {
     },
     onSettled: () => {
       ctx.invalidateQueries(["guestbookgetAll"]);
-    }
+    },
   });
 
   if (status === "loading") {
@@ -46,17 +48,25 @@ const Home = () => {
 
   return (
     <main className="flex flex-col items-center">
-      <h1 className="text-3xl pt-4">Guestbook</h1>
-      <p>
-        Tutorial for <code>create-t3-app</code>
+      <h1 className="text-3xl pt-4 text-center">
+        Welcome to Shiru&apos;s Interactive Corner!
+      </h1>
+      <br />
+      <p className="text-center">Share insights in our dynamic guestbook</p>
+      <p className="text-sm text-center text-gray-600">
+        <code>powered by TypeScript, TRPC, and Next.js</code>
       </p>
 
       <div className="pt-10">
         {session ? (
           <div>
-            <p>hi {session.user?.name}</p>
-
-            <button onClick={() => signOut()}>Logout</button>
+            <p className="pb-4">hi {session.user?.name}</p>
+            <button
+              onClick={() => signOut()}
+              className="bg-white text-black p-1 rounded border text-xs border-gray-300 hover:bg-gray-100"
+            >
+              Logout
+            </button>
 
             <div className="pt-6">
               <form
@@ -95,7 +105,10 @@ const Home = () => {
           </div>
         ) : (
           <div>
-            <button onClick={() => signIn("discord")}>
+            <button
+              onClick={() => signIn("discord")}
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            >
               Login with Discord
             </button>
 
@@ -106,10 +119,9 @@ const Home = () => {
       </div>
     </main>
   );
-}; 
+};
 
 export default Home;
-
 
 // type TechnologyCardProps = {
 //   name: string;
