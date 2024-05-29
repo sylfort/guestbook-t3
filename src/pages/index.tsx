@@ -19,13 +19,19 @@ const Messages = () => {
     <div className="flex flex-col gap-4">
       {messages?.map((msg, index) => (
         <div className="flex-wrap flex-column gap-4" key={index}>
-          <div className="flex-nowrap flex-row gap-4">
-            <p>{msg.message}</p>
-            {session ? (
-              <TranslateButton message={msg.message} />
-            ) : (
-              <p>Login to translate</p>
-            )}
+          <div className="flex-nowrap flex-row gap-4 border-b-2 border-red-800">
+            <div>{msg.message}</div>
+            <div>
+              {session ? (
+                <TranslateButton message={msg.message} />
+              ) : (
+                <p className="`ml-2 p-1 text-xs font-semibold text-amber-500 decoration-sky-800/30">
+                  Login to try the new
+                  <br />
+                  AI translation feature!
+                </p>
+              )}
+            </div>
           </div>
           <span>{msg.name}</span>
         </div>
@@ -65,7 +71,7 @@ const Home = () => {
       <p className="text-center">Share insights in our dynamic guestbook</p>
       <p className="text-sm text-center text-gray-600">
         <code>
-          powered by TypeScript, TRPC, and Next.js, AWS RDS and OpenAI API
+          powered by TypeScript, TRPC, Next.js, AWS RDS and OpenAI API
         </code>
       </p>
 
@@ -116,12 +122,18 @@ const Home = () => {
             </div>
           </div>
         ) : (
-          <div>
+          <div className="flex flex-col gap-4 text-sm">
             <button
               onClick={() => signIn("discord")}
               className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
             >
               Login with Discord
+            </button>
+            <button
+              onClick={() => signIn("github")}
+              className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+            >
+              Login with GitHub
             </button>
 
             <div className="pt-10" />
