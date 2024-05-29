@@ -6,18 +6,18 @@ const openai = new OpenAI({
 });
 
 export default async function translateMessage(
-  //   engMsg: string,
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const { text } = req.body;
+  const { text } = req.query;
+  console.log(text);
 
   try {
     const completion = await openai.chat.completions.create({
       messages: [
         {
           role: "user",
-          content: `Translate the following text to Japanese and return just the translation: `,
+          content: `Translate the following text to Japanese and return just the translation:${text}`,
         },
       ],
       model: "gpt-3.5-turbo-1106",
