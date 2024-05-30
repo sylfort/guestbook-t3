@@ -15,27 +15,24 @@ const Messages = () => {
   return (
     <div className="flex flex-col gap-4 rounded-lg p-4 border-2 border-zinc-700">
       <h3 className="text-lg font-semibold">Messages:</h3>
+      {!session && (
+        <p className="`ml-2 text-center p-1 text-xs font-semibold text-amber-500 decoration-sky-800/30">
+          Login to try the new
+          <br />
+          AI translation feature!
+        </p>
+      )}
       {messages?.map((msg, index) => (
         <div className="flex-wrap flex-column gap-4" key={index}>
           <div
-            className={`flex-nowrap flex-row gap-4 ${
+            className={`grid grid-cols-[repeat(2,minmax(0,0.5fr))] gap-1 ${
               !session && "border-red-800" && "border-b-2"
             }`}
           >
-            <div>{msg.message}</div>
-            <div>
-              {session ? (
-                <TranslateButton message={msg.message} />
-              ) : (
-                <p className="`ml-2 text-center p-1 text-xs font-semibold text-amber-500 decoration-sky-800/30">
-                  Login to try the new
-                  <br />
-                  AI translation feature!
-                </p>
-              )}
-            </div>
+            <div className="flex items-center">{msg.message}</div>
+            <div>{session && <TranslateButton message={msg.message} />}</div>
           </div>
-          <span>{msg.name}</span>
+          <span className="text-xs font-bold text-blue-400">/{msg.name}</span>
         </div>
       ))}
     </div>
@@ -118,7 +115,6 @@ const Home = () => {
                 </button>
               </form>
             </div>
-
             <div className="pt-10">
               <Messages />
             </div>
@@ -137,12 +133,20 @@ const Home = () => {
             >
               Login with GitHub
             </button>
-
             <div className="pt-10" />
             <Messages />
           </div>
         )}
       </div>
+
+      <footer className="flex flex-col items-center pt-10 pb-2 text-sm">
+        <p>
+          Made with ❤️ by{" "}
+          <a href="https://github.com/sylfort">
+            <span className="hover:text-blue-500">github.com/sylfort</span>
+          </a>
+        </p>
+      </footer>
     </main>
   );
 };
