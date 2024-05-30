@@ -28,12 +28,12 @@ export const TranslateButton = ({ message }: { message: string }) => {
       {!translation && (
         <button
           onClick={handleTranslate}
-          className={`m-2 antialiased text-[13px] rounded-full font-['Segoe_UI'] ${
+          className={`m-2 p-2 antialiased text-[14px] rounded-full ${
             translation ? "bg-gray-700 text-black" : "bg-green-600 text-white"
           }`}
           disabled={!!translation}
         >
-          {loading ? "Translating..." : "Translate to Japanese"}
+          {loading ? "Translating..." : "Japanese"}
         </button>
       )}
       {translation && (
