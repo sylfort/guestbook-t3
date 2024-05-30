@@ -10,7 +10,6 @@ export default async function translateMessage(
   res: NextApiResponse
 ) {
   const { text } = req.query;
-  console.log(text);
 
   try {
     const completion = await openai.chat.completions.create({
@@ -24,7 +23,7 @@ export default async function translateMessage(
     });
 
     const translation = completion.choices[0];
-    console.log(translation);
+
     res.status(200).json({ translation });
   } catch (error) {
     console.error("Translation error:", error);

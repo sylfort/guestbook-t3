@@ -1,9 +1,6 @@
-import type { NextPage } from "next";
-import Head from "next/head";
 import { trpc } from "../utils/trpc";
 import { useState } from "react";
 import { signIn, signOut, useSession } from "next-auth/react";
-import axios from "axios";
 import { TranslateButton } from "../components/translateButton";
 
 const Messages = () => {
@@ -16,16 +13,21 @@ const Messages = () => {
   if (isLoading) return <div>Fetching messages...</div>;
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-4 rounded-lg p-4 border-2 border-zinc-700">
+      <h3 className="text-lg font-semibold">Messages:</h3>
       {messages?.map((msg, index) => (
         <div className="flex-wrap flex-column gap-4" key={index}>
-          <div className="flex-nowrap flex-row gap-4 border-b-2 border-red-800">
+          <div
+            className={`flex-nowrap flex-row gap-4 ${
+              !session && "border-red-800" && "border-b-2"
+            }`}
+          >
             <div>{msg.message}</div>
             <div>
               {session ? (
                 <TranslateButton message={msg.message} />
               ) : (
-                <p className="`ml-2 p-1 text-xs font-semibold text-amber-500 decoration-sky-800/30">
+                <p className="`ml-2 text-center p-1 text-xs font-semibold text-amber-500 decoration-sky-800/30">
                   Login to try the new
                   <br />
                   AI translation feature!
