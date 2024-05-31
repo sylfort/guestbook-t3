@@ -1,131 +1,78 @@
-# Create T3 App
+# Shiru Guestbook App
 
-This is an app bootstrapped according to the [init.tips](https://init.tips) stack, also known as the T3-Stack.
+Shiru Guestbook is a web application that allows users to create and view guestbook entries. This project is bootstrapped with the T3 Stack, AmazonRDS and OpenAI API.
 
-## Why are there `.js` files in here?
+## Live Demo
 
-As per [T3-Axiom #3](https://github.com/t3-oss/create-t3-app/tree/next#3-typesafety-isnt-optional), we believe take typesafety as a first class citizen. Unfortunately, not all frameworks and plugins support TypeScript which means some of the configuration files have to be `.js` files.
+Check out the live demo hosted on Vercel: [shiru-guestbook-t3.vercel.app](https://shiru-guestbook-t3.vercel.app/)
 
-We try to emphasize that these files are javascript for a reason, by explicitly declaring its type (`cjs` or `mjs`) depending on what's supported by the library it is used by. Also, all the `js` files in this project are still typechecked using a `@ts-check` comment at the top.
+![Shiru Guestbook Screenshot](https://github.com/sylfort/guestbook-t3/assets/24916160/87bfd091-454a-4c91-9904-b3d2b6905507)
 
-## What's next? How do I make an app with this?
+## Features
 
-We try to keep this project as simple as possible, so you can start with the most basic configuration and then move on to more advanced configuration.
+- **Create Guestbook Entries**: Users can submit new entries to the guestbook.
+- **View Guestbook Entries**: Users can view all entries in the guestbook.
+- **Japanese Translation**: Integrated with OpenAI API to generate Japanese translations of guestbook messages.
 
-If you are not familiar with the different technologies used in this project, please refer to the respective docs. If you still are in the wind, please join our [Discord](https://t3.gg/discord) and ask for help.
+## Technologies Used
 
-- [Next-Auth.js](https://next-auth.js.org)
-- [Prisma](https://prisma.io)
-- [TailwindCSS](https://tailwindcss.com)
-- [tRPC](https://trpc.io) (using @next version? [see v10 docs here](https://alpha.trpc.io))
+- **TypeScript**: For static typing and enhanced code quality.
+- **Next.js**: For server-side rendering and static site generation.
+- **Tailwind CSS**: For rapid UI development with utility-first CSS.
+- **tRPC**: For end-to-end typesafe APIs.
+- **Amazon RDS (PostgreSQL)**: As the database to store guestbook entries.
+- **OpenAI API**: For generating Japanese translations of messages.
+- **Vercel**: For deployment and hosting.
 
-## How do I deploy this?
+## Getting Started
 
-### Vercel
+### Prerequisites
 
-We recommend deploying to [Vercel](https://vercel.com/?utm_source=t3-oss&utm_campaign=oss). It makes it super easy to deploy NextJs apps.
+- Node.js and npm installed
+- PostgreSQL database setup (Amazon RDS recommended)
 
-- Push your code to a GitHub repository.
-- Go to [Vercel](https://vercel.com/?utm_source=t3-oss&utm_campaign=oss) and sign up with GitHub.
-- Create a Project and import the repository you pushed your code to.
-- Add your environment variables.
-- Click **Deploy**
-- Now whenever you push a change to your repository, Vercel will automatically redeploy your website!
+### Installation
 
-### Docker
+1. **Clone the repository**
 
-You can also dockerize this stack and deploy a container.
-
-1. In your [next.config.mjs](./next.config.mjs), add the `output: "standalone"` option to your config.
-2. Create a `.dockerignore` file with the following contents:
-   <details>
-   <summary>.dockerignore</summary>
-
-   ```
-   Dockerfile
-   .dockerignore
-   node_modules
-   npm-debug.log
-   README.md
-   .next
-   .git
+   ```bash
+   git clone https://github.com/sylfort/guestbook-t3.git
+   cd guestbook-t3
    ```
 
-  </details>
+2. **Install dependencies**
 
-3. Create a `Dockerfile` with the following contents:
-   <details>
-   <summary>Dockerfile</summary>
-
-   ```Dockerfile
-   # Install dependencies only when needed
-   FROM node:16-alpine AS deps
-   # Check https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine to understand why libc6-compat might be needed.
-   RUN apk add --no-cache libc6-compat
-   WORKDIR /app
-
-   # Install dependencies based on the preferred package manager
-   COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* ./
-   RUN \
-      if [ -f yarn.lock ]; then yarn --frozen-lockfile; \
-      elif [ -f package-lock.json ]; then npm ci; \
-      elif [ -f pnpm-lock.yaml ]; then yarn global add pnpm && pnpm i; \
-      else echo "Lockfile not found." && exit 1; \
-      fi
-
-
-   # Rebuild the source code only when needed
-   FROM node:16-alpine AS builder
-   WORKDIR /app
-   COPY --from=deps /app/node_modules ./node_modules
-   COPY . .
-
-   # Next.js collects completely anonymous telemetry data about general usage.
-   # Learn more here: https://nextjs.org/telemetry
-   # Uncomment the following line in case you want to disable telemetry during the build.
-   # ENV NEXT_TELEMETRY_DISABLED 1
-
-   RUN yarn build
-
-   # If using npm comment out above and use below instead
-   # RUN npm run build
-
-   # Production image, copy all the files and run next
-   FROM node:16-alpine AS runner
-   WORKDIR /app
-
-   ENV NODE_ENV production
-   # Uncomment the following line in case you want to disable telemetry during runtime.
-   # ENV NEXT_TELEMETRY_DISABLED 1
-
-   RUN addgroup --system --gid 1001 nodejs
-   RUN adduser --system --uid 1001 nextjs
-
-   # You only need to copy next.config.js if you are NOT using the default configuration
-   # COPY --from=builder /app/next.config.js ./
-   COPY --from=builder /app/public ./public
-   COPY --from=builder /app/package.json ./package.json
-
-   # Automatically leverage output traces to reduce image size
-   # https://nextjs.org/docs/advanced-features/output-file-tracing
-   COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
-   COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
-
-   USER nextjs
-
-   EXPOSE 3000
-
-   ENV PORT 3000
-
-   CMD ["node", "server.js"]
+   ```bash
+   npm install
    ```
 
-  </details>
+3. **Setup environment variables**
 
-4. You can now build an image to deploy yourself, or use a PaaS such as [Railway's](https://railway.app) automated [Dockerfile deployments](https://docs.railway.app/deploy/dockerfiles) to deploy your app.
+   Create a `.env` file in the root directory and add the following:
 
-## Useful resources
+   ```env
+   DATABASE_URL=your_postgresql_database_url
 
-Here are some resources that we commonly refer to:
+   NEXTAUTH_SECRET=your_nextauth_secret
+   NEXTAUTH_URL=http://localhost:3000
 
-- [Protecting routes with Next-Auth.js](https://next-auth.js.org/configuration/nextjs#unstable_getserversession)
+   GITHUB_ID=your_github_client_id
+   GITHUB_SECRET=your_github_client_secret
+
+   DISCORD_CLIENT_ID=your_discord_client_id
+   DISCORD_CLIENT_SECRET=your_discord_client_secret
+
+   OPENAI_API_KEY=your_openai_api_key
+   ```
+
+4. **Run the development server**
+
+   ```bash
+   npm run dev
+   ```
+
+   Open [http://localhost:3000](http://localhost:3000) to view the app in the browser.
+
+### Deployment
+
+Deploy the application to Vercel by following their [deployment guide](https://vercel.com/docs/concepts/deployments/overview).
