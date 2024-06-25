@@ -2,6 +2,8 @@
 
 Shiru Guestbook is a web application that allows users to create and view guestbook entries. This project is bootstrapped with the T3 Stack, AmazonRDS and OpenAI API.
 
+https://github.com/sylfort/guestbook-t3/assets/24916160/f4300e2b-90ac-4954-95da-d9fae423944c
+
 ## Live Demo
 
 Check out the live demo hosted on Vercel: [shiru-guestbook-t3.vercel.app](https://shiru-guestbook-t3.vercel.app/)
