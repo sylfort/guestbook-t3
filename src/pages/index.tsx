@@ -70,7 +70,7 @@ const Home = () => {
       <p className="text-center">Share insights in our dynamic guestbook</p>
       <p className="text-sm text-center text-gray-600">
         <code>
-          powered by TypeScript, TRPC, Next.js, AWS RDS and OpenAI API
+          powered by TypeScript, TRPC, Next.js, PostgresSQL and OpenAI API
         </code>
       </p>
 
